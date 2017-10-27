@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+</head>
+<body>
+<div>
+    <a href="/demo/user/new">New User</a>
+</div>
+<h1>User List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Password</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="user: ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.password}"></td>
+            <td><a th:href="@{ /demo/user/{id}(id=${user.id}) }" class="btn">Editar</a></td>
+            <td><a th:href="@{ /demo/user/{id}/delete(id=${user.id}) }" class="btn btn-danger">Excluir</a></td>
+        </tr>
+    </tbody>
+</table>
+</body>
+</html>
