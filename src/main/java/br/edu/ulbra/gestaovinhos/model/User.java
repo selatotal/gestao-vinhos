@@ -19,6 +19,10 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Avaliacao> avaliacoes;
+
+
     @ManyToMany
     @JoinTable(name="user_role", joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="role_id"))
     private Set<Role> roles;
@@ -69,5 +73,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Avaliacao> getAvaliacoes() {
+        return avaliacoes;
+    }
+
+    public void setAvaliacoes(Set<Avaliacao> avaliacoes) {
+        this.avaliacoes = avaliacoes;
     }
 }
