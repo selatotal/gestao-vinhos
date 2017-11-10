@@ -6,22 +6,20 @@ import br.edu.ulbra.gestaovinhos.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping("/demo/user")
 public class UserControllerDemo {
 
     @Autowired
-    private UserRepository userRepository;
+    UserRepository userRepository;
 
-    private final ModelMapper mapper = new ModelMapper();
+    private ModelMapper mapper = new ModelMapper();
 
     @GetMapping()
     public ModelAndView listUserDemo(){
@@ -80,9 +78,11 @@ public class UserControllerDemo {
     }
 
     @GetMapping("/{id}/delete")
-    public String deleteUserDemo(@PathVariable(name="id") Long id){
+    public ModelAndView deleteUserDemo(@PathVariable(name="id") Long id){
         User usuario = userRepository.findOne(id);
         userRepository.delete(usuario);
-        return "demo/user/delete";
+        return new ModelAndView("redirect:/demo/user/?usercreated=true");
+
     }
+
 }
