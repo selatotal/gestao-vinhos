@@ -17,6 +17,9 @@
     <input type="text" class="form-control" placeholder="Name" th:field="*{name}"/>
     <input type="password" class="form-control" placeholder="Password" th:field="*{password}"/>
     <input type="password" class="form-control" placeholder="PasswordConfirm" th:field="*{passwordConfirm}"/>
+    <select th:field="*{roleId}" class="form-control">
+        <option th:each="role : ${roles}" th:field="*{roleId}" th:value="${role.id}" th:text="${role.name}"></option>
+    </select>
     <button type="submit" class="btn btn-primary">Adicionar</button>
 </form>
 </body>

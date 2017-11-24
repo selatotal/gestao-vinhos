@@ -7,6 +7,7 @@ public class UserInput {
     private String name;
     private String password;
     private String passwordConfirm;
+    private Long roleId;
 
     public String getUsername() {
         return username;
@@ -46,5 +47,13 @@ public class UserInput {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 }

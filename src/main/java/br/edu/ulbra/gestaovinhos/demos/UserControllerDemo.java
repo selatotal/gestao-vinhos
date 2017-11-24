@@ -1,23 +1,34 @@
 package br.edu.ulbra.gestaovinhos.demos;
 
 import br.edu.ulbra.gestaovinhos.input.UserInput;
+import br.edu.ulbra.gestaovinhos.model.Role;
 import br.edu.ulbra.gestaovinhos.model.User;
+import br.edu.ulbra.gestaovinhos.repository.RoleRepository;
 import br.edu.ulbra.gestaovinhos.repository.UserRepository;
+import br.edu.ulbra.gestaovinhos.service.interfaces.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/demo/user")
 public class UserControllerDemo {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     private ModelMapper mapper = new ModelMapper();
 
@@ -32,6 +43,7 @@ public class UserControllerDemo {
     private ModelAndView userForm(UserInput userInput){
         ModelAndView mv = new ModelAndView("demo/user/new");
         mv.addObject("user", userInput);
+        mv.addObject("roles", roleRepository.findAll());
         return mv;
     }
 
@@ -49,7 +61,11 @@ public class UserControllerDemo {
         }
 
         User user = mapper.map(userInput, User.class);
-        userRepository.save(user);
+        Role role = roleRepository.findOne(userInput.getRoleId());
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        user.setRoles(roles);
+        userService.save(user);
         return new ModelAndView("redirect:/demo/user/?usercreated=true");
     }
 
@@ -57,6 +73,10 @@ public class UserControllerDemo {
     public ModelAndView viewUserDemo(@PathVariable(name="id") Long id){
         User usuario = userRepository.findOne(id);
         UserInput userInput = mapper.map(usuario, UserInput.class);
+        Set<Role> roles = usuario.getRoles();
+        if (roles.size() > 0){
+            userInput.setRoleId(roles.iterator().next().getId());
+        }
         ModelAndView mv = this.userForm(userInput);
         mv.setViewName("demo/user/update");
         return mv;
@@ -73,7 +93,12 @@ public class UserControllerDemo {
         usuario.setUsername(userInput.getUsername());
         usuario.setPassword(userInput.getPassword());
         usuario.setName(userInput.getName());
-        userRepository.save(usuario);
+        Role role = roleRepository.findOne(userInput.getRoleId());
+        Set<Role> roles = new HashSet<>();
+        roles.add(role);
+        usuario.setRoles(roles);
+
+        userService.save(usuario);
         return new ModelAndView("redirect:/demo/user/?usercreated=true");
     }
 

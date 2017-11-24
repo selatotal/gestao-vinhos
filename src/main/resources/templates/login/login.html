@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Menu</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+	integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+	crossorigin="anonymous" />
+</head>
+    <body>
+        <div th:if="${loginError}" class="alert alert-danger">
+            Invalid username and password.
+        </div>
+        <div th:if="${passwdChanged}" class="alert alert-success">
+            Senha Atualizada!
+        </div>
+        <div th:if="${mailNotFound}" class="alert alert-warning">
+            Email nao cadastrado no sistema!
+        </div>
+        <div th:if="${logout}" class="alert alert-success">
+            Logout efetuado!
+        </div>
+        <div class="container">
+	       	<h2>Login</h2>
+	        <div class="panel panel-default centered">
+				<div class="panel-body">
+					<form method="POST" action="/login">				
+						<table>	
+							<tr>
+								<td><label><b>Usuário</b></label></td>
+								<td><input type="text" name="username" /></td> 
+							</tr>
+							<tr>	
+								<td><label><b>Senha</b></label></td>
+								<td><input type="password" name="password" /></td>
+							</tr>
+							<tr>	 
+								<td colspan="2"><input type="submit" value="Login" /></td>
+							</tr>
+							<tr>
+								<td colspan="2"><a th:href="@{ /forgotPassword}">Esqueci Minha Senha</a></td>
+							</tr>							
+						</table>
+					</form>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>
